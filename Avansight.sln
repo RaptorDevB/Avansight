@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31005.135
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avansight.WEB", "Avansight.WEB\Avansight.WEB.csproj", "{032984B4-90C3-4949-BBDD-0D23AB43F652}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Avansight.Domain", "Avansight.Domain\Avansight.Domain.csproj", "{4A092600-BE15-4674-A7B2-32557145E4D3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{032984B4-90C3-4949-BBDD-0D23AB43F652}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{032984B4-90C3-4949-BBDD-0D23AB43F652}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{032984B4-90C3-4949-BBDD-0D23AB43F652}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{032984B4-90C3-4949-BBDD-0D23AB43F652}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A092600-BE15-4674-A7B2-32557145E4D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A092600-BE15-4674-A7B2-32557145E4D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A092600-BE15-4674-A7B2-32557145E4D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A092600-BE15-4674-A7B2-32557145E4D3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {69369ED7-53A7-40E4-AACD-9E675133EF6A}
+	EndGlobalSection
+EndGlobal
