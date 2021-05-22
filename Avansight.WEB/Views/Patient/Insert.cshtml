@@ -4,57 +4,69 @@
     ViewData["Title"] = "Insert";
 }
 
-<h1>Insert</h1>
-
-<h4>SimulatePatientViewModel</h4>
+<h4>Generate Patient Details</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Insert">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            @*<div class="row">
+
+            </div>*@
+
             <div class="form-group">
-                <label asp-for="SampleSize" class="control-label"></label>
+                <label class="control-label">Sample Size</label>
                 <input asp-for="SampleSize" class="form-control" />
                 <span asp-validation-for="SampleSize" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="GenderMale" class="control-label"></label>
+                <label class="control-label">Gender Male (Weight)</label>
                 <input asp-for="GenderMale" class="form-control" />
                 <span asp-validation-for="GenderMale" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="GenderFemale" class="control-label"></label>
+                <label class="control-label">Gender Female (Weight)</label>
                 <input asp-for="GenderFemale" class="form-control" />
                 <span asp-validation-for="GenderFemale" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Age20s" class="control-label"></label>
+                <label class="control-label">Age (21-30)</label>
                 <input asp-for="Age20s" class="form-control" />
                 <span asp-validation-for="Age20s" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Age30s" class="control-label"></label>
+                <label class="control-label">Age (31-40)</label>
                 <input asp-for="Age30s" class="form-control" />
                 <span asp-validation-for="Age30s" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Age40s" class="control-label"></label>
+                <label class="control-label">Age (41-50)</label>
                 <input asp-for="Age40s" class="form-control" />
                 <span asp-validation-for="Age40s" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Age50s" class="control-label"></label>
+                <label class="control-label">Age (51-60)</label>
                 <input asp-for="Age50s" class="form-control" />
                 <span asp-validation-for="Age50s" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <label asp-for="Age60s" class="control-label"></label>
+                <label class="control-label">Age (61-70)</label>
                 <input asp-for="Age60s" class="form-control" />
                 <span asp-validation-for="Age60s" class="text-danger"></span>
             </div>
+
             <div class="form-group">
-                <input type="button" onclick="AjaxFormSubmit()" value="Create" class="btn btn-primary" />
+                <input type="button" onclick="AjaxFormSubmit()" value="Generate Patients" class="btn btn-primary" />
             </div>
+
         </form>
         <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
         <script type="text/javascript">
@@ -89,9 +101,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
