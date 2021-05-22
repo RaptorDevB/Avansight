@@ -36,6 +36,11 @@ namespace Avansight.WEB.Controllers
         {
             var patients = JsonConvert.DeserializeObject<List<Patient>>(HttpContext.Session.GetString("patientList"));
             new PatientService().InsertRecords(patients);
+            var treatmentReadings = new TreatmentReadingService().GetTreatmentRecords();
+            var visitData = new VisitData();
+            visitData.TreatmentReadings = treatmentReadings;
+            visitData.PatientDtoList = new PatientService().GetUniquePatients(treatmentReadings);
+            SimulatePatientViewModel.VisitData = visitData;
             SimulatePatientViewModel.Status = "Success";
             return Json(SimulatePatientViewModel);
         }
