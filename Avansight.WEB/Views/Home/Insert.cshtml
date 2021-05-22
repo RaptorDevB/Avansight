@@ -1,0 +1,98 @@
+﻿@model Avansight.Domain.BLL.SimulatePatientViewModel
+
+@{
+    ViewData["Title"] = "Insert";
+}
+
+<h1>Insert</h1>
+
+<h4>SimulatePatientViewModel</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Insert">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="SampleSize" class="control-label"></label>
+                <input asp-for="SampleSize" class="form-control" />
+                <span asp-validation-for="SampleSize" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderMale" class="control-label"></label>
+                <input asp-for="GenderMale" class="form-control" />
+                <span asp-validation-for="GenderMale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="GenderFemale" class="control-label"></label>
+                <input asp-for="GenderFemale" class="form-control" />
+                <span asp-validation-for="GenderFemale" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age20s" class="control-label"></label>
+                <input asp-for="Age20s" class="form-control" />
+                <span asp-validation-for="Age20s" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age30s" class="control-label"></label>
+                <input asp-for="Age30s" class="form-control" />
+                <span asp-validation-for="Age30s" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age40s" class="control-label"></label>
+                <input asp-for="Age40s" class="form-control" />
+                <span asp-validation-for="Age40s" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age50s" class="control-label"></label>
+                <input asp-for="Age50s" class="form-control" />
+                <span asp-validation-for="Age50s" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Age60s" class="control-label"></label>
+                <input asp-for="Age60s" class="form-control" />
+                <span asp-validation-for="Age60s" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="button" onclick="AjaxFormSubmit()" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+        <script type="text/javascript">
+        function AjaxFormSubmit() {
+            //Set the URL.
+            var url = $("#myForm").attr("action");
+
+            //Add the Field values to FormData object.
+            var formData = new FormData();
+            formData.append("SampleSize", $("#SampleSize").val());
+            formData.append("GenderMale", $("#GenderMale").val());
+            formData.append("GenderFemale", $("#GenderFemale").val());
+            formData.append("Age20s", $("#Age20s").val());
+            formData.append("Age30s", $("#Age30s").val());
+            formData.append("Age40s", $("#Age40s").val());
+            formData.append("Age50s", $("#Age50s").val());
+            formData.append("Age60s", $("#Age60s").val());
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (response) {
+                if (response.Status === "success") {
+                    $("#lblName").html(response.Name);
+                }
+            });
+        }
+        </script>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

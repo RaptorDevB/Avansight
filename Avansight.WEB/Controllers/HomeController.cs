@@ -35,13 +35,20 @@ namespace Avansight.WEB.Controllers
             testPatientData.Age40s = 3;
             testPatientData.Age50s = 2;
             testPatientData.Age60s = 4;
-            new PatientService().InsertRecords(testPatientData);
+            //new PatientService().InsertRecords(testPatientData);
             return View();
         }
 
-        public IActionResult Privacy()
+        public IActionResult Insert()
         {
-            return View();
+            return View(new SimulatePatientViewModel());
+        }
+
+        [HttpPost]
+        public JsonResult Insert(SimulatePatientViewModel SimulatePatientViewModel)
+        {
+            new PatientService().InsertRecords(SimulatePatientViewModel);
+            return Json(SimulatePatientViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
