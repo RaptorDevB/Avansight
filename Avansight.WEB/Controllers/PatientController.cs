@@ -5,6 +5,7 @@ using Avansight.WEB.Models;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -13,6 +14,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.AspNetCore.Http;
 
 namespace Avansight.WEB.Controllers
 {
@@ -32,7 +34,20 @@ namespace Avansight.WEB.Controllers
         [HttpPost]
         public JsonResult Insert(SimulatePatientViewModel SimulatePatientViewModel)
         {
-            new PatientService().InsertRecords(SimulatePatientViewModel);
+            var patients = JsonConvert.DeserializeObject<List<Patient>>(HttpContext.Session.GetString("patientList"));
+            new PatientService().InsertRecords(patients);
+            SimulatePatientViewModel.Status = "Success";
+            return Json(SimulatePatientViewModel);
+        }
+
+        [HttpPost]
+        public JsonResult Generate(SimulatePatientViewModel SimulatePatientViewModel)
+        {
+            var patientList = new PatientService().GeneratePatientList(SimulatePatientViewModel);
+            HttpContext.Session.SetString("patientList", JsonConvert.SerializeObject(patientList));
+            SimulatePatientViewModel.AgeDistribution = new PatientService().GetAgeDistribution(patientList);
+            SimulatePatientViewModel.GenderDistribution = new PatientService().GetGenderDistribution(patientList);
+            SimulatePatientViewModel.Status = "Success";
             return Json(SimulatePatientViewModel);
         }
 
