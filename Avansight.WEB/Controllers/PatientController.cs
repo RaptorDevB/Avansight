@@ -16,32 +16,24 @@ using System.Transactions;
 
 namespace Avansight.WEB.Controllers
 {
-    public class HomeController : Controller
+    public class PatientController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ILogger<PatientController> _logger;
+        public PatientController(ILogger<PatientController> logger)
         {
             _logger = logger;
         }
 
-        public IActionResult Index()
+        public IActionResult Insert()
         {
-            var testPatientData = new SimulatePatientViewModel();
-            testPatientData.SampleSize = 30;
-            testPatientData.GenderMale = 5;
-            testPatientData.GenderFemale = 10;
-            testPatientData.Age20s = 1;
-            testPatientData.Age30s = 5;
-            testPatientData.Age40s = 3;
-            testPatientData.Age50s = 2;
-            testPatientData.Age60s = 4;
-            new PatientService().InsertRecords(testPatientData);
-            return View();
+            return View(new SimulatePatientViewModel());
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public JsonResult Insert(SimulatePatientViewModel SimulatePatientViewModel)
         {
-            return View();
+            new PatientService().InsertRecords(SimulatePatientViewModel);
+            return Json(SimulatePatientViewModel);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
