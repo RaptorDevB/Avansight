@@ -1,0 +1,43 @@
+﻿@model Avansight.Domain.BLL.VisitData
+
+
+<div class="row" id="VisitDataPartial" style="display:none">
+    <div class="col-md-10">
+        <form asp-action="_VisitData">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <input type="button" onclick="LoadAllPatients()" value="All Patients" class="btn btn-primary" />
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="form-group">
+                        <select class="form-control" id="PatientList"></select>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-12">
+
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -20,20 +20,98 @@
         <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
 
             <div class="tab-pane fade show active" id="patientInfo" role="tabpanel" aria-labelledby="patientInfo-tab">
-                <partial name="InsertPartial" model="Model" />
+                <partial name="_SimulatePatients" model="Model" />
             </div>
 
             <div class="tab-pane fade" id="visitData" role="tabpanel" aria-labelledby="visitData-tab">
-
+                <partial name="_VisitData" model="Model.VisitData" />
             </div>
 
         </div>
 
-
-
     </div>
 
-   
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        function SaveGeneratedRecords() {
+
+            var url = $("#myForm").attr("action");
+
+            var formData = new FormData();
+            formData.append("SampleSize", $("#SampleSize").val());
+            formData.append("GenderMale", $("#GenderMale").val());
+            formData.append("GenderFemale", $("#GenderFemale").val());
+            formData.append("Age20s", $("#Age20s").val());
+            formData.append("Age30s", $("#Age30s").val());
+            formData.append("Age40s", $("#Age40s").val());
+            formData.append("Age50s", $("#Age50s").val());
+            formData.append("Age60s", $("#Age60s").val());
+
+            $.ajax({
+                type: 'POST',
+                url: url,
+                data: formData,
+                processData: false,
+                contentType: false
+            }).done(function (response) {
+                try {
+                    if (response.status === "Success") {
+                        LoadVisitData(response.visitData)
+                    } else {
+                        LoadError("Something went wrong! Please try again");
+                    }
+                } catch (e) {
+                    LoadError("Something went wrong! Please try again");
+                }
+            });
+        }
+
+        function LoadVisitData(visitData) {
+            if (visitData.patientDtoList == null || visitData.patientDtoList == "" || visitData.treatmentReadings == null || visitData.treatmentReadings == "") {
+                LoadError("Something went wrong! Please try again");
+                document.getElementById("VisitDataPartial").style.display = "none";
+            } else {
+                LoadPatientList(visitData.patientDtoList);
+                LoadTreatmentGrid(visitData.treatmentReadings);
+                document.getElementById("VisitDataPartial").style.display = "block";
+                LoadSuccess("Data Saved Successfully");
+            }
+        }
+
+        function LoadPatientList(PatientDtoList) {
+            var patientDropdown = document.getElementById("PatientList");
+            var i, L = patientDropdown.options.length - 1;
+            for (i = L; i >= 0; i--) {
+                patientDropdown.options.remove(i);
+            }
+            var selectPatientMsgeOption = document.createElement("option");
+            selectPatientMsgeOption.value = 0;
+            selectPatientMsgeOption.text = "Select Patient";
+            patientDropdown.options.add(selectPatientMsgeOption);
+            for (var x = 0; x < PatientDtoList.length; x++) {
+                var id = PatientDtoList[x].patientId;
+                var name = PatientDtoList[x].displayName;
+                var selectOption = document.createElement("option");
+                selectOption.value = id;
+                selectOption.text = name;
+                patientDropdown.options.add(selectOption);
+            }
+        }
+
+        function LoadTreatmentGrid() {
+
+        }
+
+        function LoadError(msge) {
+            alert(msge);
+        }
+
+        function LoadSuccess(msge) {
+            alert(msge);
+        }
+
+    </script>
+
 
 </div>
 

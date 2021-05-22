@@ -4,6 +4,7 @@ using Dapper;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace Avansight.Domain.BLL
 {
@@ -19,7 +20,14 @@ namespace Avansight.Domain.BLL
             DataTable dt = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(Newtonsoft.Json.JsonConvert.SerializeObject(treatmentReadings));
             var spName = "TreatmentReadingSet";
             var dyn = new { TreatmentReadingDetails = dt.AsTableValuedParameter("TreatmentReadingTableType") };
-            new Repository<int>().insert<int>(spName, dyn, conn, ref rtn);
+            new Repository<int>().Query<int>(spName, dyn, conn, ref rtn);
         }
+
+        public List<TreatmentReading> GetTreatmentRecords()
+        {
+            var spName = "TreatmentReadingsGet";
+            return new DataAccessService().Query<TreatmentReading>(spName, null, CommandType.StoredProcedure, null).ToList();
+        }
+
     }
 }

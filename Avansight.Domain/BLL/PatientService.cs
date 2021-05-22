@@ -24,15 +24,10 @@ namespace Avansight.Domain.BLL
 
         public void Insertpatient(SqlConnection conn, ref List<int> rtn, List<Patient> patients)
         {
-            //var GeneratePatientService = new GeneratePatientService();
-            //var patients = GeneratePatientService.GeratePatientList(inputs.SampleSize, inputs.GenderMale, inputs.GenderFemale, inputs.Age20s, inputs.Age30s, inputs.Age40s, inputs.Age50s, inputs.Age60s);
-            
             DataTable dt = Newtonsoft.Json.JsonConvert.DeserializeObject<DataTable>(Newtonsoft.Json.JsonConvert.SerializeObject(patients));
-
             var spName = "PatientSet";
             var dyn = new { PatientDetails = dt.AsTableValuedParameter("PatientTableType") };
-
-            new Repository<int>().insert<int>(spName, dyn, conn, ref rtn);
+            new Repository<int>().Query<int>(spName, dyn, conn, ref rtn);
         }
 
         public List<Patient> GeneratePatientList(SimulatePatientViewModel inputs)
@@ -58,6 +53,22 @@ namespace Avansight.Domain.BLL
             ageDeistribution.Age50s = patients.Count(e => e.Age > 50 && e.Age <= 60);
             ageDeistribution.Age60s = patients.Count(e => e.Age > 60 && e.Age <= 70);
             return ageDeistribution;
+        }
+
+        public List<PatientDto> GetUniquePatients(List<TreatmentReading> readings)
+        {
+            var patientDtos = new List<PatientDto>();
+            var counter = 0;
+            var byPatient = readings.GroupBy(e => e.PatientId);
+            foreach (var record in byPatient)
+            {
+                counter++;
+                var patientDto = new PatientDto();
+                patientDto.PatientId = record.FirstOrDefault().PatientId;
+                patientDto.DisplayName = "Patient " + counter;
+                patientDtos.Add(patientDto);
+            }
+            return patientDtos;
         }
     }
 }

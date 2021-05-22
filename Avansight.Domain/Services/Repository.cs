@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Avansight.Domain.Services
 {
-    public class Repository<Entity> //: IRepository<Entity>
+    public class Repository<Entity>
     {
-        public void insert<Entity>(string spName, object dyn, SqlConnection conn, ref List<Entity> rtn)
+        public void Query<Entity>(string spName, object dyn, SqlConnection conn, ref List<Entity> rtn)
         {
             rtn = new DataAccessService().Query<Entity>(spName, dyn, CommandType.StoredProcedure, conn).ToList();
         }
