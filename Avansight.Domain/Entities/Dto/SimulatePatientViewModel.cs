@@ -1,18 +1,43 @@
 ﻿using Avansight.Domain.Entities;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Avansight.Domain.BLL
 {
     public class SimulatePatientViewModel
     {
         public string Status { get; set; }
+        [Required(ErrorMessage = "Please Enter a Sample Size")]
+        [Range(1, int.MaxValue, ErrorMessage = "Sample Size should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Sample Size should be an integer")]
         public int SampleSize { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int GenderMale { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int GenderFemale { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int Age20s { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int Age30s { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int Age40s { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1,int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int Age50s { get; set; }
+        [Required(ErrorMessage = "Please Enter a Weight")]
+        [Range(1, int.MaxValue, ErrorMessage = "Weight should be greater than zero")]
+        [RegularExpression("([0-9]*)", ErrorMessage = "Weight should be an integer")]
         public int Age60s { get; set; }
         public AgeDistribution AgeDistribution { get; set; }
         public GenderDistribution GenderDistribution { get; set; }
