@@ -72,7 +72,7 @@
                 document.getElementById("VisitDataPartial").style.display = "none";
             } else {
                 LoadPatientList(visitData.patientDtoList);
-                LoadTreatmentGrid(visitData.treatmentReadings);
+                LoadTreatmentGrid(visitData.treatmentReadings, 0);
                 document.getElementById("VisitDataPartial").style.display = "block";
                 LoadSuccess("Data Saved Successfully");
             }
@@ -98,7 +98,45 @@
             }
         }
 
-        function LoadTreatmentGrid() {
+        function LoadTreatmentGrid(TreatmentReadings, selectedPatientId) {
+            for (var x = 0; x < TreatmentReadings.length; x++) {
+
+            }
+
+
+            const data = {
+                rows: [
+                    ['V1', 2.8875],
+                    ['V2', 5.941],
+                    ['V3', 8.8215],
+                    ['V4', 7.799],
+                    ['V4', 6.97],
+                    ['V6', 4.31],
+                    ['V7', 7.1315],
+                ],
+                columns: [
+                    {
+                        type: DomoPhoenix.DATA_TYPE.STRING,
+                        name: 'Week',
+                        mapping: DomoPhoenix.MAPPING.ITEM
+                    },
+                    {
+                        type: DomoPhoenix.DATA_TYPE.DOUBLE,
+                        name: 'Reading',
+                        mapping: DomoPhoenix.MAPPING.VALUE
+                    }
+                ]
+            };
+
+            const options = { /* ... */ };
+
+            const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.LINE, data, options);
+            //const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.CURVED_LINE, data, options);
+
+            document.getElementById('TreatmentReadingsChart').appendChild(chart.canvas);
+            chart.render();
+
+            //chart.resize(300, 200);
 
         }
 
