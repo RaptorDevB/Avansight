@@ -4,7 +4,7 @@
 <div class="row">
     <div class="col-md-10">
 
-        <form asp-action="_SimulatePatient">
+        <form id="SimulatePatientForm" asp-action="_SimulatePatient">
 
             <div class="row">
 
@@ -114,121 +114,127 @@
 
         <script type="text/javascript">
 
-        function GeneratePatients() {
+            function GeneratePatients() {
 
-            var url = "@Url.Action("Generate", "Patient")";
+                $('#SimulatePatientForm').validate();
 
-            var formData = new FormData();
-            formData.append("SampleSize", $("#SampleSize").val());
-            formData.append("GenderMale", $("#GenderMale").val());
-            formData.append("GenderFemale", $("#GenderFemale").val());
-            formData.append("Age20s", $("#Age20s").val());
-            formData.append("Age30s", $("#Age30s").val());
-            formData.append("Age40s", $("#Age40s").val());
-            formData.append("Age50s", $("#Age50s").val());
-            formData.append("Age60s", $("#Age60s").val());
+                if ($('#SimulatePatientForm').valid()) {
 
-            $.ajax({
-                type: 'POST',
-                url: url,
-                data: formData,
-                processData: false,
-                contentType: false
-            }).done(function (response) {
-                SetUpInitialGraphs(response);
-            });
-        }
+                    var url = "@Url.Action("Generate", "Patient")";
 
-        function SetUpInitialGraphs(response) {
-            try {
-                if (response.status == "Success") {
-                    SetupAgeDestribution(response);
-                    SetupGenderDistribution(response);
-                    document.getElementById("ChartDiv").style.display = "block";
-                } else {
+                    var formData = new FormData();
+                    formData.append("SampleSize", $("#SampleSize").val());
+                    formData.append("GenderMale", $("#GenderMale").val());
+                    formData.append("GenderFemale", $("#GenderFemale").val());
+                    formData.append("Age20s", $("#Age20s").val());
+                    formData.append("Age30s", $("#Age30s").val());
+                    formData.append("Age40s", $("#Age40s").val());
+                    formData.append("Age50s", $("#Age50s").val());
+                    formData.append("Age60s", $("#Age60s").val());
+
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: formData,
+                        processData: false,
+                        contentType: false
+                    }).done(function (response) {
+                        SetUpInitialGraphs(response);
+                    });
+
+                }
+            }
+
+            function SetUpInitialGraphs(response) {
+                try {
+                    if (response.status == "Success") {
+                        SetupAgeDestribution(response);
+                        SetupGenderDistribution(response);
+                        document.getElementById("ChartDiv").style.display = "block";
+                    } else {
+                        LoadError("Something went wrong! Please try again");
+                        document.getElementById("ChartDiv").style.display = "none";
+                    }
+                }
+                catch (e) {
                     LoadError("Something went wrong! Please try again");
                     document.getElementById("ChartDiv").style.display = "none";
                 }
             }
-            catch (e) {
-                LoadError("Something went wrong! Please try again");
-                document.getElementById("ChartDiv").style.display = "none";
+
+            function SetupGenderDistribution(response) {
+                var maleCount = response.genderDistribution.maleCount;
+                var femaleCount = response.genderDistribution.femaleCount;
+
+                const data = {
+                    rows: [
+                        ['Male', maleCount],
+                        ['Female', femaleCount]
+                    ],
+
+                    columns: [
+                        {
+                            type: DomoPhoenix.DATA_TYPE.STRING,
+                            name: 'Gender',
+                            mapping: DomoPhoenix.MAPPING.ITEM
+                        },
+                        {
+                            type: DomoPhoenix.DATA_TYPE.DOUBLE,
+                            name: 'Count',
+                            mapping: DomoPhoenix.MAPPING.VALUE
+                        }
+                    ]
+                };
+
+                const options = {
+                    //width: 600,
+                    //height: 500
+                };
+
+                const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.DONUT, data, options);
+                document.getElementById('GenderDesChart').appendChild(chart.canvas);
+                chart.render();
+
+                chart.resize(300, 200);
             }
-        }
 
-        function SetupGenderDistribution(response) {
-            var maleCount = response.genderDistribution.maleCount;
-            var femaleCount = response.genderDistribution.femaleCount;
+            function SetupAgeDestribution(response) {
+                var age20Count = response.ageDistribution.age20s;
+                var age30Count = response.ageDistribution.age30s;
+                var age40Count = response.ageDistribution.age40s;
+                var age50Count = response.ageDistribution.age50s;
+                var age60Count = response.ageDistribution.age60s;
 
-            const data = {
-                rows: [
-                    ['Male', maleCount],
-                    ['Female', femaleCount]
-                ],
+                const data = {
+                    rows: [
+                        ['20-30', age20Count],
+                        ['30-40', age30Count],
+                        ['40-50', age40Count],
+                        ['50-60', age50Count],
+                        ['60-70', age60Count]
+                    ],
+                    columns: [
+                        {
+                            type: DomoPhoenix.DATA_TYPE.STRING,
+                            name: 'Age Range',
+                            mapping: DomoPhoenix.MAPPING.ITEM
+                        },
+                        {
+                            type: DomoPhoenix.DATA_TYPE.DOUBLE,
+                            name: 'Count',
+                            mapping: DomoPhoenix.MAPPING.VALUE
+                        }
+                    ]
+                };
 
-                columns: [
-                    {
-                        type: DomoPhoenix.DATA_TYPE.STRING,
-                        name: 'Gender',
-                        mapping: DomoPhoenix.MAPPING.ITEM
-                    },
-                    {
-                        type: DomoPhoenix.DATA_TYPE.DOUBLE,
-                        name: 'Count',
-                        mapping: DomoPhoenix.MAPPING.VALUE
-                    }
-                ]
-            };
+                const options = { /* ... */ };
 
-            const options = {
-                //width: 600,
-                //height: 500
-            };
+                const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.BAR, data, options);
+                document.getElementById('AgeDesChart').appendChild(chart.canvas);
+                chart.render();
 
-            const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.DONUT, data, options);
-            document.getElementById('GenderDesChart').appendChild(chart.canvas);
-            chart.render();
-
-            chart.resize(300, 200);
-        }
-
-        function SetupAgeDestribution(response) {
-            var age20Count = response.ageDistribution.age20s;
-            var age30Count = response.ageDistribution.age30s;
-            var age40Count = response.ageDistribution.age40s;
-            var age50Count = response.ageDistribution.age50s;
-            var age60Count = response.ageDistribution.age60s;
-
-            const data = {
-                rows: [
-                    ['20-30', age20Count],
-                    ['30-40', age30Count],
-                    ['40-50', age40Count],
-                    ['50-60', age50Count],
-                    ['60-70', age60Count]
-                ],
-                columns: [
-                    {
-                        type: DomoPhoenix.DATA_TYPE.STRING,
-                        name: 'Age Range',
-                        mapping: DomoPhoenix.MAPPING.ITEM
-                    },
-                    {
-                        type: DomoPhoenix.DATA_TYPE.DOUBLE,
-                        name: 'Count',
-                        mapping: DomoPhoenix.MAPPING.VALUE
-                    }
-                ]
-            };
-
-            const options = { /* ... */ };
-
-            const chart = new DomoPhoenix.Chart(DomoPhoenix.CHART_TYPE.BAR, data, options);
-            document.getElementById('AgeDesChart').appendChild(chart.canvas);
-            chart.render();
-
-            chart.resize(300, 200);
-        }
+                chart.resize(300, 200);
+            }
 
         </script>
     </div>
