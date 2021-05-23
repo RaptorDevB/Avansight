@@ -106,13 +106,13 @@
 
             const data = {
                 rows: [
-                    ['V1', 2.8875],
-                    ['V2', 5.941],
-                    ['V3', 8.8215],
-                    ['V4', 7.799],
-                    ['V4', 6.97],
-                    ['V6', 4.31],
-                    ['V7', 7.1315],
+                    ['V1', 2.8875, 'P1'],
+                    ['V2', 5.941, 'P1'],
+                    ['V3', 8.8215, 'P1'],
+                    ['V4', 7.799, 'P2'],
+                    ['V4', 6.97, 'P2'],
+                    ['V6', 4.31, 'P2'],
+                    ['V7', 7.1315, 'P2'],
                 ],
                 columns: [
                     {
@@ -124,6 +124,11 @@
                         type: DomoPhoenix.DATA_TYPE.DOUBLE,
                         name: 'Reading',
                         mapping: DomoPhoenix.MAPPING.VALUE
+                    },
+                    {
+                        type: DomoPhoenix.DATA_TYPE.STRING,
+                        name: 'Patient',
+                        mapping: DomoPhoenix.MAPPING.SERIES
                     }
                 ]
             };
